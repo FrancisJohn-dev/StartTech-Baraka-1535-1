@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StartTech - Assessment 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #282c34;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #61dafb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #21b4d6;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome to StartTech</h1>
+        <p>A full-stack application with React frontend and Golang backend.</p>
+    </div>
+
+    <div class="content">
+        <h2>Assessment 3 - Complete CI/CD Pipeline</h2>
+        <p>This application demonstrates:</p>
+        <ul>
+            <li>✅ Terraform infrastructure as code</li>
+            <li>✅ AWS S3 + CloudFront hosting</li>
+            <li>✅ Application Load Balancer</li>
+            <li>✅ Auto Scaling Group</li>
+            <li>✅ ElastiCache Redis</li>
+            <li>✅ CloudWatch monitoring</li>
+            <li>✅ GitHub Actions CI/CD</li>
+        </ul>
+
+        <h3>Test Backend Connection</h3>
+        <button onclick="testAPI()">Test API</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const result = document.getElementById('result');
+            try {
+                const response = await fetch('http://backend-alb-1864924311.us-east-1.elb.amazonaws.com/health');
+                if (response.ok) {
+                    result.innerHTML = '<span style="color: green;">✅ Backend is healthy!</span>';
+                } else {
+                    result.innerHTML = '<span style="color: red;">❌ Backend returned status: ' + response.status + '</span>';
+                }
+            } catch (error) {
+                result.innerHTML = '<span style="color: red;">❌ Error: ' + error.message + '</span>';
+            }
+        }
+    </script>
+</body>
+</html>< CI/CD trigger -->
