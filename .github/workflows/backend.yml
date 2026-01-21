@@ -1,0 +1,41 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches: [ master ]
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21.x'
+      - name: Install dependencies
+        run: go mod tidy
+      - name: Build
+        run: go build -v ./...
+      - name: Run tests
+        run: go test -v ./...
+      # Add deployment steps here (e.g., Docker build/push, SSH to EC2, etc.)
+      # Example: Docker build and push to ECR
+      # - name: Login to Amazon ECR
+      #   uses: aws-actions/amazon-ecr-login@v2
+      # - name: Build, tag, and push image
+      #   run: |
+      #     docker build -t ${{ secrets.ECR_REPO }}:latest .
+      #     docker tag ${{ secrets.ECR_REPO }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ secrets.ECR_REPO }}:latest
+      #     docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/${{ secrets.ECR_REPO }}:latest
