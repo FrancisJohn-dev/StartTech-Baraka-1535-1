@@ -65,6 +65,8 @@ jobs:
 
     - name: Build
       run: npm run build
+      env:
+        REACT_APP_API_URL: http://backend-alb-1864924311.us-east-1.elb.amazonaws.com
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4

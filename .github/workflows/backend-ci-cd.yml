@@ -85,8 +85,15 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: starttech-backend
         IMAGE_TAG: ${{ github.sha }}
+        REDIS_URL: starttech-redis.mkhze7.0001.use1.cache.amazonaws.com:6379
+        MONGODB_URI: ${{ secrets.MONGODB_URI }}
+        PORT: 8080
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+          --build-arg REDIS_URL=$REDIS_URL \
+          --build-arg MONGODB_URI=$MONGODB_URI \
+          --build-arg PORT=$PORT \
+          .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
     - name: Deploy to EC2
